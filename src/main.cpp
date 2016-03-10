@@ -6,12 +6,9 @@
 #include "config/timer.h"
 
 typedef Timer<TIMERB_ADDR> TimerB;
-typedef TimerCallback<(uint16_t)&TCNT1, 5> TimerBHandler;
-
-typedef void(*Callback)(void);
+typedef TimerDispatcher<(uint16_t)&TCNT1, 5> TimerBDispathcer;
 
 void ledToggleCallback();
-
 
 int main()
 {
@@ -19,22 +16,20 @@ int main()
 	led::clear();
 
 	TimerB::clock_select::write(TimerB::clock_mode::CLK_256);
-	TimerBHandler handler;
-	handler += ledToggleCallback;
+	
+	TimerBDispathcer dispatcher;
+	
+	dispatcher.setMaxTimerCount(32429);
 
-	Callback ledCallback = ledToggleCallback;
+	TimerHandler handler;
+	handler.timeout = 32429;
+	handler.callback = ledToggleCallback;
+
+	dispatcher += &handler;
 
 	for(;;)
 	{
-//		if(TCNT1 >= 31249)
-//		{
-//			led::toggle();
-//			TCNT1 = 0;//
-
-//			ledCallback();
-//		}
-
-		handler.poll();
+		dispatcher.poll();
 	}
 
 	return 0;
@@ -43,5 +38,4 @@ int main()
 void ledToggleCallback()
 {
 	led::toggle();
-	TCNT1 = 0;
 }
