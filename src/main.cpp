@@ -8,7 +8,8 @@
 typedef Timer<TIMERB_ADDR> TimerB;
 typedef TimerDispatcher<(uint16_t)&TCNT1, 5> TimerBDispathcer;
 
-void ledToggleCallback();
+void ledOn();
+void ledOff();
 
 int main()
 {
@@ -19,13 +20,18 @@ int main()
 	
 	TimerBDispathcer dispatcher;
 	
-	dispatcher.setMaxTimerCount(32429);
+	dispatcher.setMaxTimerCount(51000);
 
-	TimerHandler handler;
-	handler.timeout = 32429;
-	handler.callback = ledToggleCallback;
+	TimerHandler ledOnHandler;
+	ledOnHandler.timeout = 25000;
+	ledOnHandler.callback = ledOn;
 
-	dispatcher += &handler;
+	TimerHandler ledOffHandler;
+	ledOffHandler.timeout = 50000;
+	ledOffHandler.callback = ledOff;
+
+	dispatcher += &ledOnHandler;
+	dispatcher += &ledOffHandler;
 
 	for(;;)
 	{
@@ -35,7 +41,12 @@ int main()
 	return 0;
 }
 
-void ledToggleCallback()
+void ledOn()
 {
-	led::toggle();
+	led::set();
+}
+
+void ledOff()
+{
+	led::clear();
 }
