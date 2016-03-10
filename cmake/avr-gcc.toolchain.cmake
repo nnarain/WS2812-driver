@@ -111,7 +111,7 @@ macro(add_avr_executable target_name)
 
 		PROPERTIES
 			COMPILE_FLAGS "-mmcu=${AVR_MCU} -g -Os -w -std=gnu++11 -fno-exceptions -ffunction-sections -fdata-sections"
-			LINK_FLAGS    "-Wl,-Map,${map_file},--section-start,.data=0x801100,--defsym=__heap_end=0x80ffff ${AVR_LINKER_LIBS}"
+			LINK_FLAGS    "-mmcu=${AVR_MCU} -Wl,-Map,${map_file} ${AVR_LINKER_LIBS}"
 	)
 
 	# generate the lst file

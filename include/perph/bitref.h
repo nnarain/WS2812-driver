@@ -1,6 +1,6 @@
 
-#ifndef PINREF_H
-#define PINREF_H
+#ifndef BITREF_H
+#define BITREF_H
 
 #include <stdint.h>
 
@@ -10,7 +10,7 @@ namespace perph
 {
 
 template<int PERPH_ADDR, int PIN>
-class PinRef
+class BitRef
 {
 public:
 	static void set()
@@ -44,4 +44,4 @@ public:
 
 } // namespace perph
 
-#endif // PINREF_H
+#endif // BITREF_H

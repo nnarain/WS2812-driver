@@ -3,7 +3,7 @@
 #define GPIO_PORT_H
 
 #include "perph/io_port.h"
-#include "perph/pinref.h"
+#include "perph/bitref.h"
 
 namespace perph
 {
