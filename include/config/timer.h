@@ -3,8 +3,8 @@
 #define TIMER_H
 
 #include "config/portmap_328p.h"
-#include "perph/bitref.h"
-#include "perph/bitgroup.h"
+#include "periph/bitref.h"
+#include "periph/bitgroup.h"
 
 /*
 
@@ -17,12 +17,12 @@
 template<int TIMER_ADDR>
 struct Timer
 {
-	typedef perph::BitRef<TIMER_ADDR, 7> input_capture_noise_canceler;
-	typedef perph::BitRef<TIMER_ADDR, 6> input_capture_edge_select;
+	typedef periph::BitRef<TIMER_ADDR, 7> input_capture_noise_canceler;
+	typedef periph::BitRef<TIMER_ADDR, 6> input_capture_edge_select;
 
-	typedef perph::BitGroup<TIMER_ADDR, 3, 2> wave_mode;
+	typedef periph::BitGroup<TIMER_ADDR, 3, 2> wave_mode;
 
-	typedef perph::BitGroup<TIMER_ADDR, 0, 3> clock_select;
+	typedef periph::BitGroup<TIMER_ADDR, 0, 3> clock_select;
 
 	struct clock_mode
 	{

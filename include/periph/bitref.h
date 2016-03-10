@@ -4,28 +4,28 @@
 
 #include <stdint.h>
 
-#include "perph/io_port.h"
+#include "periph/io_port.h"
 
-namespace perph
+namespace periph
 {
 
-template<int PERPH_ADDR, int PIN>
+template<int PERIPH_ADDR, int PIN>
 class BitRef
 {
 public:
 	static void set()
 	{
-		IO_PORT8(PERPH_ADDR) |= (BV(PIN));
+		IO_PORT8(PERIPH_ADDR) |= (BV(PIN));
 	}
 
 	static void clear()
 	{
-		IO_PORT8(PERPH_ADDR) &= ~(BV(PIN));
+		IO_PORT8(PERIPH_ADDR) &= ~(BV(PIN));
 	}
 
 	static void toggle()
 	{
-		IO_PORT8(PERPH_ADDR) ^= (BV(PIN));
+		IO_PORT8(PERIPH_ADDR) ^= (BV(PIN));
 	}
 
 	static void setState(bool val)
@@ -38,7 +38,7 @@ public:
 
 	static bool value()
 	{
-		return IS_BIT_SET(IO_PORT8(PERPH_ADDR), PIN) != 0;
+		return IS_BIT_SET(IO_PORT8(PERIPH_ADDR), PIN) != 0;
 	}
 };
 

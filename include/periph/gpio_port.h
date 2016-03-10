@@ -2,10 +2,10 @@
 #ifndef GPIO_PORT_H
 #define GPIO_PORT_H
 
-#include "perph/io_port.h"
-#include "perph/bitref.h"
+#include "periph/io_port.h"
+#include "periph/bitref.h"
 
-namespace perph
+namespace periph
 {
 
 template<uint8_t... PINS>
@@ -39,7 +39,7 @@ private:
 };
 
 template<
-	int PERPH_ADDR,
+	int PERIPH_ADDR,
 	int DDR_ADDR,
 	class SetBits
 >
