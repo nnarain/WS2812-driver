@@ -9,36 +9,36 @@
 namespace periph
 {
 
-template<int PERIPH_ADDR, int PIN>
+template<int PERIPH, int PIN>
 class BitRef
 {
 public:
-	static void set()
+	static void high()
 	{
-		IO_PORT8(PERIPH_ADDR) |= (BV(PIN));
+		IO_PORT8(PERIPH) |= (BV(PIN));
 	}
 
-	static void clear()
+	static void low()
 	{
-		IO_PORT8(PERIPH_ADDR) &= ~(BV(PIN));
+		IO_PORT8(PERIPH) &= ~(BV(PIN));
 	}
 
 	static void toggle()
 	{
-		IO_PORT8(PERIPH_ADDR) ^= (BV(PIN));
+		IO_PORT8(PERIPH) ^= (BV(PIN));
 	}
 
-	static void setState(bool val)
+	static void set(bool val)
 	{
 		if(val)
-			set();
+			high();
 		else
-			clear();
+			low();
 	}
 
 	static bool value()
 	{
-		return IS_BIT_SET(IO_PORT8(PERIPH_ADDR), PIN) != 0;
+		return IS_BIT_SET(IO_PORT8(PERIPH), PIN) != 0;
 	}
 };
 
