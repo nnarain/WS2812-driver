@@ -7,7 +7,7 @@
 #include "periph/gpio_pin_ref.h"
 #include "periph/gpio_port.h"
 
-#include "config/timer.h"
+#include "timer.h"
 
 typedef periph::Gpio<PORTB_ADDR, DDRB_ADDR> GpioB;
 typedef periph::GpioPinRef<GpioB, 5> led;
