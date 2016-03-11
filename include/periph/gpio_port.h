@@ -7,7 +7,7 @@
 
 namespace periph
 {
-
+/*
 template<uint8_t... PINS>
 class PinSet
 {
@@ -52,6 +52,17 @@ public:
 	}
 
 private:
+};
+*/
+
+template<int PERIPH_ADDR, int DDR_ADDR>
+struct Gpio
+{
+	enum
+	{
+		PERIPH = PERIPH_ADDR,
+		DDR    = DDR_ADDR
+	};
 };
 
 } // namespace perph
