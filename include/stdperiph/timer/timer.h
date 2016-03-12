@@ -1,10 +1,6 @@
 
-#ifndef TIMER_H
-#define TIMER_H
-
-#include "config/portmap_328p.h"
-#include "periph/bitref.h"
-#include "periph/bitgroup.h"
+#ifndef STDPERIPH_TIMER_H
+#define STDPERIPH_TIMER_H
 
 /*
 
@@ -12,33 +8,10 @@
 
 */
 
-
-
-template<int TIMER_ADDR>
-struct Timer
+namespace stdperiph
 {
-	typedef periph::BitRef<TIMER_ADDR, 7> input_capture_noise_canceler;
-	typedef periph::BitRef<TIMER_ADDR, 6> input_capture_edge_select;
-
-	typedef periph::BitGroup<TIMER_ADDR, 3, 2> wave_mode;
-
-	typedef periph::BitGroup<TIMER_ADDR, 0, 3> clock_select;
-
-	struct clock_mode
-	{
-		enum
-		{
-			NO_CLK       = 0,
-			CLK_1        = 1,
-			CLK_8        = 2,
-			CLK_64       = 3,
-			CLK_256      = 4,
-			CLK_1024     = 5,
-			CLK_EXT_FALL = 6,
-			CLK_EXT_RISE = 7
-		};
-	};
-};
+namespace timer
+{
 
 typedef void (*Callback)(void);
 
@@ -95,6 +68,8 @@ private:
 	uint16_t num_handlers_;
 	uint16_t max_timer_count_;
 };
+	
+}
+}
 
-
-#endif // TIMER_H
+#endif
