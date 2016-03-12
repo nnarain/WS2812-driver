@@ -2,7 +2,7 @@
 #ifndef GPIO_PIN_REF_H
 #define GPIO_PIN_REF_H
 
-namespace periph
+namespace stdperiph
 {
 namespace BitMode
 {
@@ -54,6 +54,6 @@ public:
 	}
 };
 
-}
+} // namespace stdperiph
 
 #endif
