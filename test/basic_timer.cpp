@@ -4,8 +4,7 @@
 
 #include <stdperiph/stdperiph.h>
 
-#include "config/portmap_328p.h"
-#include "timer.h"
+#include "atmega328p.h"
 
 using namespace stdperiph;
 using namespace stdperiph::timer;
@@ -13,7 +12,6 @@ using namespace stdperiph::timer;
 typedef Gpio<PORTB_ADDR, DDRB_ADDR> GpioB;
 typedef GpioPinRef<GpioB, 5> led;
 
-typedef Timer<TIMERB_ADDR> TimerB;
 typedef TimerDispatcher<(uint16_t)&TCNT1, 5> TimerBDispathcer;
 
 void ledOn();
@@ -25,7 +23,7 @@ int main()
 	led::mode(BitMode::OUTPUT);
 	led::low();
 
-	TimerB::clock_select::write(TimerB::clock_mode::CLK_256);
+	Timer1B::CS::write(Timer1B::ClockMode::CLK_256);
 	
 	uint16_t led_on_count = periodToCount(0.5, 256, F_CPU);
 	uint16_t led_off_count = led_on_count * 2;
