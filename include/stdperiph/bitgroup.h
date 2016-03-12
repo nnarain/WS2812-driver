@@ -2,12 +2,12 @@
 #ifndef BITGROUP_H
 #define BITGROUP_H
 
-#include "periph/io_port.h"
+#include "stdperiph/io_port.h"
 #include "utils/bitutils.h"
 
 #include <stdint.h>
 
-namespace periph
+namespace stdperiph
 {
 
 template<int N>
@@ -37,6 +37,6 @@ public:
 	}
 };
 
-}
+} // namespace stdperiph
 
 #endif // BITGROUP_H

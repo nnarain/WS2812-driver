@@ -3,14 +3,16 @@
 #include <util/delay.h>
 
 #include "config/portmap_328p.h"
-#include "periph/bitref.h"
-#include "periph/gpio_pin_ref.h"
-#include "periph/gpio_port.h"
+#include "stdperiph/bitref.h"
+#include "stdperiph/gpio_pin_ref.h"
+#include "stdperiph/gpio_port.h"
 
 #include "timer.h"
 
-typedef periph::Gpio<PORTB_ADDR, DDRB_ADDR> GpioB;
-typedef periph::GpioPinRef<GpioB, 5> led;
+using namespace stdperiph;
+
+typedef Gpio<PORTB_ADDR, DDRB_ADDR> GpioB;
+typedef GpioPinRef<GpioB, 5> led;
 
 typedef Timer<TIMERB_ADDR> TimerB;
 typedef TimerDispatcher<(uint16_t)&TCNT1, 5> TimerBDispathcer;
@@ -20,7 +22,7 @@ void ledOff();
 
 int main()
 {
-	led::mode(periph::BitMode::OUTPUT);
+	led::mode(BitMode::OUTPUT);
 	led::low();
 
 	TimerB::clock_select::write(TimerB::clock_mode::CLK_256);

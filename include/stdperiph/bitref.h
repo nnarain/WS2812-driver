@@ -4,9 +4,9 @@
 
 #include <stdint.h>
 
-#include "periph/io_port.h"
+#include "stdperiph/io_port.h"
 
-namespace periph
+namespace stdperiph
 {
 
 template<int PERIPH, int PIN>
@@ -42,6 +42,6 @@ public:
 	}
 };
 
-} // namespace perph
+} // namespace stdperiph
 
 #endif // BITREF_H
