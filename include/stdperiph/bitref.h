@@ -13,22 +13,22 @@ template<int PERIPH, int PIN>
 class BitRef
 {
 public:
-	static void high()
+	static inline void high()
 	{
 		IO_PORT8(PERIPH) |= (BV(PIN));
 	}
 
-	static void low()
+	static inline void low()
 	{
 		IO_PORT8(PERIPH) &= ~(BV(PIN));
 	}
 
-	static void toggle()
+	static inline void toggle()
 	{
 		IO_PORT8(PERIPH) ^= (BV(PIN));
 	}
 
-	static void set(bool val)
+	static inline void set(bool val)
 	{
 		if(val)
 			high();
@@ -36,7 +36,7 @@ public:
 			low();
 	}
 
-	static bool value()
+	static inline bool value()
 	{
 		return IS_BIT_SET(IO_PORT8(PERIPH), PIN) != 0;
 	}
