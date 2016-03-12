@@ -166,7 +166,7 @@ macro(add_avr_executable target_name)
 	)
 
 	add_custom_target(
-		"flash"
+		"flash-${target_name}"
 
 		DEPENDS "flash-${hex_file}"
 	)
