@@ -135,7 +135,7 @@ macro(add_avr_executable target_name)
 	)
 
 	add_custom_command(
-		OUTPUT "print-size"
+		OUTPUT "print-size-${elf_file}"
 
 		COMMAND
 			${AVR_SIZE} ${elf_file}
@@ -147,7 +147,7 @@ macro(add_avr_executable target_name)
 	add_custom_target(
 		${target_name}
 		ALL
-		DEPENDS ${hex_file} ${lst_file} "print-size"
+		DEPENDS ${hex_file} ${lst_file} "print-size-${elf_file}"
 	)
 
 	set_target_properties(

@@ -6,6 +6,11 @@ include_directories(
 	include/
 )
 
-add_avr_executable(test
-	main.cpp
+add_avr_executable(basic_timer
+	basic_timer.cpp
+)
+
+
+add_avr_executable(basic_interrupts
+	basic_interrupts.cpp
 )

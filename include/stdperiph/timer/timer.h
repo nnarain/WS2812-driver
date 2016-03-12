@@ -2,6 +2,8 @@
 #ifndef STDPERIPH_TIMER_H
 #define STDPERIPH_TIMER_H
 
+#include <stdint.h>
+
 /*
 
 	Target Timer Count = (1 / Target Frequency) / (Prescale / Input Frequency) - 1
@@ -14,6 +16,16 @@ namespace timer
 {
 
 typedef void (*Callback)(void);
+
+uint16_t freqToCount(uint32_t target_freq, uint32_t prescale, uint32_t input_freq)
+{
+	return (uint16_t)(((1.0f / (float)target_freq) / ((float)prescale / (float)input_freq)) - 1.0f);
+}
+
+uint16_t periodToCount(float period, uint32_t prescale, uint32_t input_freq)
+{
+	return (uint16_t)((period / ((float)prescale / (float)input_freq) ) - 1);
+}
 
 struct TimerHandler
 {
