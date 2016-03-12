@@ -2,14 +2,13 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include "config/portmap_328p.h"
-#include "stdperiph/bitref.h"
-#include "stdperiph/gpio_pin_ref.h"
-#include "stdperiph/gpio_port.h"
+#include <stdperiph/stdperiph.h>
 
+#include "config/portmap_328p.h"
 #include "timer.h"
 
 using namespace stdperiph;
+using namespace stdperiph::timer;
 
 typedef Gpio<PORTB_ADDR, DDRB_ADDR> GpioB;
 typedef GpioPinRef<GpioB, 5> led;
