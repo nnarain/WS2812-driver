@@ -14,3 +14,7 @@ add_avr_executable(basic_timer
 add_avr_executable(basic_interrupts
 	basic_interrupts.cpp
 )
+
+add_avr_executable(ws2812driver
+	ws2812.cpp
+)
