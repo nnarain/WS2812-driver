@@ -2,11 +2,10 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-//#include "config/portmap_328p.h"
+#include <avr/io.h>
+
 #include "stdperiph/bitref.h"
 #include "stdperiph/bitgroup.h"
-
-#include <avr/io.h>
 
 /* Timer 1 Control Register A */
 
@@ -64,7 +63,7 @@ namespace Timer1B
 
 	typedef stdperiph::BitGroup<PERIPH, 3, 2> WGM;   ///< Wave generator mode
 
-	typedef stdperiph::BitGroup<PERIPH, 0, 3> CS;   ///< Clock select
+	typedef stdperiph::BitGroup<PERIPH, 0, 3> ClockSelect;   ///< Clock select
 
 	namespace ClockMode
 	{
@@ -80,6 +79,16 @@ namespace Timer1B
 			CLK_EXT_RISE = 7
 		};
 	};
+}
+
+namespace TimerInterruptMask
+{
+	enum{ PERIPH = ((uint16_t)&TIMSK1) };
+
+	typedef stdperiph::BitRef<PERIPH, 5> InputCapture;
+	typedef stdperiph::BitRef<PERIPH, 2> OutputCapture1B;
+	typedef stdperiph::BitRef<PERIPH, 1> OutputCapture1A;
+	typedef stdperiph::BitRef<PERIPH, 0> Overflow;
 }
 
 

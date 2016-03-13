@@ -13,13 +13,13 @@ namespace stdperiph
 template<int N>
 struct Mask
 {
-	enum{ value = (1 << N) | Mask<N - 1>::value };
+	enum{ value = (1 << (N-1)) | Mask<N - 1>::value };
 };
 
 template<>
-struct Mask<1>
+struct Mask<0>
 {
-	enum { value = 0x01 };
+	enum { value = (1 << 0) };
 };
 
 template<int PERIPH_ADDR, int START_BIT, int NUM_BITS>

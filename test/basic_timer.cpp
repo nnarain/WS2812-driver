@@ -23,7 +23,7 @@ int main()
 	led::mode(BitMode::OUTPUT);
 	led::low();
 
-	Timer1B::CS::write(Timer1B::ClockMode::CLK_256);
+	Timer1B::ClockSelect::write(Timer1B::ClockMode::CLK_256);
 	
 	uint16_t led_on_count = periodToCount(0.5, 256, F_CPU);
 	uint16_t led_off_count = led_on_count * 2;
