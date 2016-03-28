@@ -12,7 +12,7 @@ using namespace stdperiph::timer;
 typedef Gpio<PORTB_ADDR, DDRB_ADDR> GpioB;
 typedef GpioPinRef<GpioB, 5> led;
 
-typedef TimerDispatcher<(uint16_t)&TCNT1, 5> TimerBDispathcer;
+//typedef TimerDispatcher<(uint16_t)&TCNT1, 5> TimerBDispathcer;
 
 void ledOn();
 void ledOff();
@@ -23,7 +23,7 @@ int main()
 	led::mode(BitMode::OUTPUT);
 	led::low();
 
-	Timer1B::ClockSelect::write(Timer1B::ClockMode::CLK_256);
+/*	Timer1B::ClockSelect::write(Timer1B::ClockMode::CLK_256);
 	
 	uint16_t led_on_count = periodToCount(0.5, 256, F_CPU);
 	uint16_t led_off_count = led_on_count * 2;
@@ -41,11 +41,11 @@ int main()
 	ledHandler2.callback = ledOff;
 
 	dispatcher += &ledHandler1;
-	dispatcher += &ledHandler2;
+	dispatcher += &ledHandler2;*/
 
 	for(;;)
 	{
-		dispatcher.poll();
+	//	dispatcher.poll();
 	}
 
 	return 0;

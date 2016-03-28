@@ -6,7 +6,7 @@
 #include <stdperiph/stdperiph.h>
 
 #include "config/portmap_328p.h"
-#include "timer.h"
+//#include "timer.h"
 
 using namespace stdperiph;
 using namespace stdperiph::timer;
@@ -16,7 +16,7 @@ typedef GpioPinRef<GpioB, 5> led;
 
 int main()
 {
-	led::mode(BitMode::OUTPUT);
+/*	led::mode(BitMode::OUTPUT);
 	led::low();
 
     // set up timer with prescaler = 64 and CTC mode
@@ -32,7 +32,7 @@ int main()
     // enable compare interrupt
     TimerInterruptMask::OutputCapture1A::high();
 
-	sei();
+	sei();*/
 
 	for(;;);
 
