@@ -2,23 +2,70 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "config/portmap_328p.h"
+#include <avr/io.h>
+
 #include "stdperiph/bitref.h"
 #include "stdperiph/bitgroup.h"
 
+/* Timer 1 Control Register A */
 
-
-template<int TIMER_ADDR>
-struct Timer
+namespace Timer1A
 {
-	typedef stdperiph::BitRef<TIMER_ADDR, 7> input_capture_noise_canceler;
-	typedef stdperiph::BitRef<TIMER_ADDR, 6> input_capture_edge_select;
+	enum { PERIPH = ((uint16_t)&TCCR1A) };
 
-	typedef stdperiph::BitGroup<TIMER_ADDR, 3, 2> wave_mode;
+	typedef stdperiph::BitGroup<PERIPH, 6, 2> COM1A; ///< Compare output for channel A
+	typedef stdperiph::BitGroup<PERIPH, 4, 2> COM1B; ///< Compare output for channel B
 
-	typedef stdperiph::BitGroup<TIMER_ADDR, 0, 3> clock_select;
+	typedef stdperiph::BitGroup<PERIPH, 0, 2> WGM; ///< Wave mode
 
-	struct clock_mode
+	namespace CompareOutputMode
+	{
+		enum
+		{
+			NORMAL = 0x00,
+			TOGGLE = 0x01,
+			CLEAR  = 0x02,
+			SET    = 0x03
+		};
+	}
+
+	namespace CompareOutputModeFastPWN
+	{
+		enum
+		{
+			NORMAL = 0x00,
+			MODE1  = 0x01,
+			MODE2  = 0x02,
+			MODE3  = 0x03
+		};
+	}
+
+	namespace CompareOutputModePhaseCorrect
+	{
+		enum
+		{
+			NORMAL = 0x00,
+			MODE1  = 1,
+			MODE2  = 2,
+			MODE3  = 3
+		};
+	}
+}
+
+/* Timer 1 Control Register B */
+
+namespace Timer1B
+{
+	enum{ PERIPH = ((uint16_t)&TCCR1B) };
+
+	typedef stdperiph::BitRef<PERIPH, 7>      ICNC; ///< Input capture noise canceler 
+	typedef stdperiph::BitRef<PERIPH, 6>      ICES; ///< Input capture edge select
+
+	typedef stdperiph::BitGroup<PERIPH, 3, 2> WGM;   ///< Wave generator mode
+
+	typedef stdperiph::BitGroup<PERIPH, 0, 3> ClockSelect;   ///< Clock select
+
+	namespace ClockMode
 	{
 		enum
 		{
@@ -32,9 +79,17 @@ struct Timer
 			CLK_EXT_RISE = 7
 		};
 	};
-};
+}
 
+namespace TimerInterruptMask
+{
+	enum{ PERIPH = ((uint16_t)&TIMSK1) };
 
+	typedef stdperiph::BitRef<PERIPH, 5> InputCapture;
+	typedef stdperiph::BitRef<PERIPH, 2> OutputCapture1B;
+	typedef stdperiph::BitRef<PERIPH, 1> OutputCapture1A;
+	typedef stdperiph::BitRef<PERIPH, 0> Overflow;
+}
 
 
 #endif // TIMER_H

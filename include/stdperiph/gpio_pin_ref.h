@@ -17,7 +17,7 @@ template<typename Gpio, int PIN>
 class GpioPinRef
 {
 public:
-	static void mode(BitMode::e mode)
+	static inline void mode(BitMode::e mode)
 	{
 		if(mode == BitMode::OUTPUT)
 			IO_PORT8(Gpio::DDR) |= (1 << PIN);
@@ -25,30 +25,27 @@ public:
 			IO_PORT8(Gpio::DDR) &= ~(1 << PIN);
 	}
 
-	static void high()
+	static inline void high()
 	{
 		IO_PORT8(Gpio::PERIPH) |= (BV(PIN));
 	}
 
-	static void low()
+	static inline void low()
 	{
 		IO_PORT8(Gpio::PERIPH) &= ~(BV(PIN));
 	}
 
-	static void toggle()
+	static inline void toggle()
 	{
 		IO_PORT8(Gpio::PERIPH) ^= (BV(PIN));
 	}
 
-	static void set(bool val)
+	static inline void set(uint8_t val)
 	{
-		if(val)
-			high();
-		else
-			low();
+		FORCE(IO_PORT8(Gpio::PERIPH), BV(PIN), (val << PIN));
 	}
 
-	static bool value()
+	static inline bool value()
 	{
 		return IS_BIT_SET(IO_PORT8(Gpio::PERIPH), PIN) != 0;
 	}

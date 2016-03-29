@@ -61,8 +61,6 @@ set(CMAKE_STRIP        "${TOOLCHAIN_ROOT}/${TRIPLE}-strip${OS_SUFFIX}"   CACHE P
 set(CMAKE_RANLIB       "${TOOLCHAIN_ROOT}/${TRIPLE}-ranlib${OS_SUFFIX}"  CACHE PATH "ranlib"  FORCE)
 set(AVR_SIZE           "${TOOLCHAIN_ROOT}/${TRIPLE}-size${OS_SUFFIX}"    CACHE PATH "size"    FORCE)
 
-set(CMAKE_EXE_LINKER_FLAGS "-L /usr/lib/gcc/avr/4.8.2")
-
 # avr uploader config
 find_program(AVR_UPLOAD
 	NAME
@@ -73,9 +71,9 @@ find_program(AVR_UPLOAD
 		$ENV{AVR_ROOT}
 )
 
-if(NOT AVR_UPLOAD_BUAD)
-	set(AVR_UPLOAD_BUAD 57600)
-endif(NOT AVR_UPLOAD_BUAD)
+if(NOT AVR_UPLOAD_BAUD)
+	set(AVR_UPLOAD_BAUD 57600)
+endif(NOT AVR_UPLOAD_BAUD)
 
 if(NOT AVR_UPLOAD_PROGRAMMER)
 	set(AVR_UPLOAD_PROGRAMMER "arduino")
@@ -89,6 +87,22 @@ if(NOT AVR_UPLOAD_PORT)
 		set(AVR_UPLOAD_PORT "COM3")
 	endif(WIN32)
 endif(NOT AVR_UPLOAD_PORT)
+
+# simavr config
+find_program(SIMAVR
+	NAME
+		simavr
+
+	PATHS
+		/usr/bin/
+		$ENV{SIMAVR_HOME}
+)
+
+if(NOT SIMAVR)
+	message("-- Could not find simavr")
+else(NOT SIMAVR)
+	message("-- Found simavr: ${SIMAVR}")
+endif(NOT SIMAVR)
 
 # setup the avr exectable macro
 
@@ -110,7 +124,7 @@ macro(add_avr_executable target_name)
 		${elf_file}
 
 		PROPERTIES
-			COMPILE_FLAGS "-mmcu=${AVR_MCU} -g -Os -w -std=gnu++11 -fno-exceptions -ffunction-sections -fdata-sections"
+			COMPILE_FLAGS "-mmcu=${AVR_MCU} -g -Os -w -std=gnu++11 -fno-exceptions -ffunction-sections -fdata-sections -fpermissive"
 			LINK_FLAGS    "-mmcu=${AVR_MCU} -Wl,-Map,${map_file} ${AVR_LINKER_LIBS}"
 	)
 
@@ -135,7 +149,7 @@ macro(add_avr_executable target_name)
 	)
 
 	add_custom_command(
-		OUTPUT "print-size"
+		OUTPUT "print-size-${elf_file}"
 
 		COMMAND
 			${AVR_SIZE} ${elf_file}
@@ -147,7 +161,7 @@ macro(add_avr_executable target_name)
 	add_custom_target(
 		${target_name}
 		ALL
-		DEPENDS ${hex_file} ${lst_file} "print-size"
+		DEPENDS ${hex_file} ${lst_file} "print-size-${elf_file}"
 	)
 
 	set_target_properties(
@@ -162,7 +176,7 @@ macro(add_avr_executable target_name)
 		OUTPUT "flash-${hex_file}"
 
 		COMMAND
-			${AVR_UPLOAD} -b${AVR_UPLOAD_BUAD} -c${AVR_UPLOAD_PROGRAMMER} -p${AVR_MCU} -U flash:w:${hex_file} -P${AVR_UPLOAD_PORT}
+			${AVR_UPLOAD} -b${AVR_UPLOAD_BAUD} -c${AVR_UPLOAD_PROGRAMMER} -p${AVR_MCU} -U flash:w:${hex_file} -P${AVR_UPLOAD_PORT}
 	)
 
 	add_custom_target(
@@ -170,5 +184,21 @@ macro(add_avr_executable target_name)
 
 		DEPENDS "flash-${hex_file}"
 	)
+
+	if(SIMAVR)
+		# create sim avr targets
+		add_custom_command(
+			OUTPUT "sim-${elf_file}"
+
+			COMMAND
+				${SIMAVR} -m ${AVR_MCU} -f 16000000 ${elf_file}
+		)
+
+		add_custom_target(
+			"sim-${target_name}"
+
+			DEPENDS "sim-${elf_file}"
+		)
+	endif(SIMAVR)
 
 endmacro(add_avr_executable)
