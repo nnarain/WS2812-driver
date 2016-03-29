@@ -124,7 +124,7 @@ macro(add_avr_executable target_name)
 		${elf_file}
 
 		PROPERTIES
-			COMPILE_FLAGS "-mmcu=${AVR_MCU} -g -Os -w -fno-exceptions -ffunction-sections -fdata-sections -fpermissive"
+			COMPILE_FLAGS "-mmcu=${AVR_MCU} -g -Os -w -std=gnu++11 -fno-exceptions -ffunction-sections -fdata-sections -fpermissive"
 			LINK_FLAGS    "-mmcu=${AVR_MCU} -Wl,-Map,${map_file} ${AVR_LINKER_LIBS}"
 	)
 
