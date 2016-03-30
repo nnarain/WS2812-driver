@@ -19,23 +19,27 @@ typedef Ws2812Driver<GpioB, 5, LED_COUNT> LedStripDriver;
 int main()
 {
 	LedStripDriver leds;
-
 	leds.begin();
 
-	leds.setPixels(0, LED_COUNT / 2, GREEN);
-	leds.setPixels((LED_COUNT / 2) + 1, LED_COUNT, GREEN);
+	uint32_t colors[] = {RED, RED | GREEN, GREEN, GREEN | BLUE, BLUE, BLUE | RED};
+	uint32_t colors_len = 6;
 
+	leds.clear();
 	leds.show();
 
 	for(;;)
 	{
-		leds.adjustBrightness(0, LED_COUNT / 2, 0.1f);
-		leds.show();
-		_delay_ms(1000);
+		for(int i = 0; i < colors_len; ++i)
+		{
+			uint32_t color = colors[i];
 
-		leds.setPixels(0, LED_COUNT / 2, GREEN);
-		leds.show();
-		_delay_ms(1000);
+			for(int j = 0; j < LED_COUNT; ++j)
+			{
+				leds.setPixel(j, color);
+				leds.show();
+				_delay_ms(10);
+			}
+		}
 	}
 
 	return 0;
