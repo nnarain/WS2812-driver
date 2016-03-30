@@ -24,3 +24,7 @@ add_avr_executable(driver_test
 	driver_test.cpp
 	${ws2812driver_VCD_TRACE_FILE}
 )
+
+add_avr_executable(color_swipe
+	color_swipe.cpp
+)
