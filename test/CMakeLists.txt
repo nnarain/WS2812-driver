@@ -7,7 +7,10 @@ include_directories(
 	../include/
 	include/
 	${SIMAVR_INCLUDE_DIR}
+	${EXTERNAL_SOURCE_DIR}/stdperiph/include
 )
+
+message("external dir: ${EXTERNAL_SOURCE_DIR}")
 
 add_vcd_trace(ws2812driver ${AVR_MCU} 16000000
 	"LED_SIGNAL,5,PORTB"
@@ -23,4 +26,8 @@ add_avr_executable(ws2812driver
 add_avr_executable(driver_test
 	driver_test.cpp
 	${ws2812driver_VCD_TRACE_FILE}
+)
+
+add_avr_executable(color_swipe
+	color_swipe.cpp
 )
