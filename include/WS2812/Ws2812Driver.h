@@ -22,6 +22,7 @@ template <typename GPIO, uint8_t PIN, uint16_t LED_COUNT>
 class Ws2812Driver
 {
 public:
+	static const unsigned int NUM_LEDS = LED_COUNT;
 	static const unsigned int PIXEL_BUFFER_SIZE = LED_COUNT * 3;
 	static const unsigned int MASK = (1 << PIN);
 
