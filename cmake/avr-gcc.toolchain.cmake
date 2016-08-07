@@ -32,7 +32,7 @@ elseif(WIN32)
 			${TRIPLE}-gcc${OS_SUFFIX}
 
 		PATHS
-			C:\WinAVR\bin
+			C:/WinAVR/bin
 			$ENV{AVR_ROOT}
 	)
 
@@ -72,7 +72,7 @@ find_program(AVR_UPLOAD
 )
 
 if(NOT AVR_UPLOAD_BAUD)
-	set(AVR_UPLOAD_BAUD 57600)
+	set(AVR_UPLOAD_BAUD 115200)
 endif(NOT AVR_UPLOAD_BAUD)
 
 if(NOT AVR_UPLOAD_PROGRAMMER)
@@ -98,12 +98,6 @@ find_program(SIMAVR
 		$ENV{SIMAVR_HOME}
 )
 
-if(NOT SIMAVR)
-	message("-- Could not find simavr")
-else(NOT SIMAVR)
-	message("-- Found simavr: ${SIMAVR}")
-endif(NOT SIMAVR)
-
 # setup the avr exectable macro
 
 set(AVR_LINKER_LIBS "-lc -lm -lgcc")
@@ -124,7 +118,7 @@ macro(add_avr_executable target_name)
 		${elf_file}
 
 		PROPERTIES
-			COMPILE_FLAGS "-mmcu=${AVR_MCU} -g -Os -w -std=gnu++11 -fno-exceptions -ffunction-sections -fdata-sections -fpermissive"
+			COMPILE_FLAGS "-mmcu=${AVR_MCU} -g -Os -w -fno-exceptions -ffunction-sections -fdata-sections -fpermissive"
 			LINK_FLAGS    "-mmcu=${AVR_MCU} -Wl,-Map,${map_file} ${AVR_LINKER_LIBS}"
 	)
 

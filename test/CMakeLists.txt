@@ -6,17 +6,19 @@ find_package(SimAvr)
 include_directories(
 	../include/
 	include/
-	${SIMAVR_INCLUDE_DIR}
 	${EXTERNAL_SOURCE_DIR}/stdperiph/include
 )
 
-message("external dir: ${EXTERNAL_SOURCE_DIR}")
-
-add_vcd_trace(ws2812driver ${AVR_MCU} 16000000
-	"LED_SIGNAL,5,PORTB"
-	"LED_SIGNAL_EN,5,DDRB"
-	"TEST,4,PORTB"
-)
+if(UNIX)
+	include_directories(
+		${SIMAVR_INCLUDE_DIR}
+	)
+	add_vcd_trace(ws2812driver ${AVR_MCU} 16000000
+		"LED_SIGNAL,5,PORTB"
+		"LED_SIGNAL_EN,5,DDRB"
+		"TEST,4,PORTB"
+	)
+endif(UNIX)
 
 add_avr_executable(ws2812driver
 	ws2812_test.cpp

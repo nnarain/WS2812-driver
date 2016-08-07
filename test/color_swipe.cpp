@@ -12,8 +12,6 @@
 #define GREEN 0x00FF00
 #define BLUE  0x0000FF
 
-GPIO(PORTB, DDRB, GpioB);
-
 typedef Ws2812Driver<GpioB, 5, LED_COUNT> LedStripDriver;
 
 int main()

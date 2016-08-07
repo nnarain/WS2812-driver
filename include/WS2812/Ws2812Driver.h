@@ -158,7 +158,7 @@ public:
 	}
 
 private:
-	inline void sendBuffer(uint8_t * buffer, uint16_t len)
+	void sendBuffer(uint8_t * buffer, uint16_t len)
 	{
 		uint8_t * pBuf = buffer;
 		uint8_t count;
@@ -179,7 +179,7 @@ private:
 			// for each byte ...
 			asm volatile(
 				"			ldi %[count], 8" 		"\n\t" // load bit counter
-				"loop:"
+				"1:"
 				"			out %[port], %[maskhi]"	"\n\t" // signal high (t0)
 				DELAY_04_US								   // delay to t1
 				"			sbrs %[data], 7"		"\n\t" // check if the bit we're writing is high, if not, signal low (t1)
@@ -189,7 +189,7 @@ private:
 				DELAY_04_US
 				"			lsl %[data]"			"\n\t" // shift the bit we are processing
 				"			dec %[count]"			"\n\t" // decrease the bit counter
-				"			brne loop"				"\n\t" // loop back to start if more bits in the byte to write
+				"			brne 1b"				"\n\t" // loop back to start if more bits in the byte to write
 
 				:
 				: [count] "d" (count), [port] "I" (_SFR_IO_ADDR(IO_PORT8(GPIO::PERIPH))), [data] "r" (data), [maskhi] "d" (maskhi), [masklo] "d" (masklo)
